@@ -11,11 +11,13 @@ const Register = () => {
 
     const {loading,handleRegister} = useAuth()
     
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        await handleRegister({username,email,password})
+   const handleSubmit = async (e) => {
+    e.preventDefault()
+    const result = await handleRegister({ username, email, password })
+    if (result) {
         navigate("/")
     }
+}
 
     if(loading){
         return (<main><h1>Loading.......</h1></main>)
