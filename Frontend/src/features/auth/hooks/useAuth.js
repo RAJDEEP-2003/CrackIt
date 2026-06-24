@@ -45,21 +45,24 @@ export const useAuth = () => {
         }
     }
 
-    useEffect(() => {
-        const getAndSetUser = async () => {
-            try {
-                const data = await getMe()
-                setUser(data.user)
-            } catch (err) {
-                // Token is invalid or expired — clear user and redirect to login
-                setUser(null)
+   useEffect(() => {
+    const getAndSetUser = async () => {
+        try {
+            const data = await getMe()
+            setUser(data.user)
+        } catch (err) {
+            setUser(null)
+            // ✅ Only redirect if not already on login or register page
+            const path = window.location.pathname
+            if (path !== '/login' && path !== '/register') {
                 navigate("/login")
-            } finally {
-                setLoading(false)
             }
+        } finally {
+            setLoading(false)
         }
-        getAndSetUser()
-    }, [])
+    }
+    getAndSetUser()
+}, [])
 
     return { user, loading, handleRegister, handleLogin, handleLogout }
 }
